@@ -2,6 +2,6 @@
     background-color: #FFFFFF;
     border-radius: 10px;
     width: 282px;
-    height: 361px;
+    min-height: 361px;
     list-style-type: none;
 }

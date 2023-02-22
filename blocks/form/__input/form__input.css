@@ -1,4 +1,4 @@
-.popup__input {
+.form__input {
     width: 100%;
     border: none;
     padding-bottom: 13px;
@@ -7,11 +7,11 @@
     outline: none;
 }
 
-.popup__input:first-child {
+.form__input:first-child {
     margin-top: 0;
 }
 
-.popup__input[value] {
+.form__input[value] {
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
