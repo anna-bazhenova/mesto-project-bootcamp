@@ -1,19 +1,19 @@
 .form__input {
-    width: 100%;
-    border: none;
-    padding-bottom: 13px;
-    border-bottom: 1px solid rgba(0, 0, 0, .2);
-    margin-top: 30px;
-    outline: none;
+  width: 100%;
+  border: none;
+  padding-bottom: 13px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin-top: 30px;
+  outline: none;
 }
 
 .form__input:first-child {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .form__input[value] {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    color: #000;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000;
 }
