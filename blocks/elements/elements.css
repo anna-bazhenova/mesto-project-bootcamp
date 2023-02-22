@@ -1,0 +1,23 @@
+.elements {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0;
+    row-gap: 20px;
+    column-gap: 17px;
+    margin: 0;
+}
+
+@media screen and (max-width: 900px) {
+    .elements {
+        padding: 0 19px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .elements {
+        margin: 0 auto;
+        column-gap: 0;
+        width: 282px;
+    }
+}
