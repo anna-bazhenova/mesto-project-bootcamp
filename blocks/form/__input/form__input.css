@@ -1,14 +1,9 @@
 .form__input {
   width: 100%;
   border: none;
-  padding-bottom: 13px;
+  padding: 0 0 13px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  margin-top: 30px;
   outline: none;
-}
-
-.form__input:first-child {
-  margin-top: 0;
 }
 
 .form__input[value] {

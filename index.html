@@ -40,10 +40,12 @@
     <div class="popup popup_edit-form">
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="form" name="editProfile">
-          <input class="form__input form__input_type_name" type="text" name="nameProfile" placeholder="Имя" value="">
-          <input class="form__input form__input_type_text" type="text" name="professionProfile" placeholder="О себе" value="">
-          <button class="form__submit-button" type="submit">Сохранить</button>
+        <form class="form" name="editProfile" novalidate>
+          <input id="name" class="form__input form__input_type_name" type="text" name="nameProfile" placeholder="Имя" value="" required minlength="2" maxlength="40">
+          <span id="error-name" class="error-message"></span>
+          <input id="profession" class="form__input form__input_type_text" type="text" name="professionProfile" placeholder="О себе" value="" required minlength="2" maxlength="200">
+          <span id="error-profession" class="error-message"></span>
+          <button class="form__submit-button" type="submit" >Сохранить</button>
         </form>
         <button type="button" class="close-button close-button_edit-form"></button>
       </div>
@@ -51,9 +53,11 @@
     <div class="popup popup_add-cards">
       <div class="popup__container">
         <h2 class="popup__title">Новое место</h2>
-        <form class="form" name="addCard">
-          <input class="form__input form__input_type_name" type="text" name="nameCard" placeholder="Название" value="">
-          <input class="form__input form__input_type_text" type="text" name="linkCard" placeholder="Ссылка на картинку" value="">
+        <form class="form" name="addCard" novalidate>
+          <input id="title" class="form__input form__input_type_name" type="text" name="nameCard" placeholder="Название" value="" required minlength="2" maxlength="30">
+          <span id="error-title" class="error-message"></span>
+          <input id="url" class="form__input form__input_type_text" type="url" name="linkCard" placeholder="Ссылка на картинку" value="" required>
+          <span id="error-url" class="error-message"></span>
           <button class="form__submit-button" type="submit">Создать</button>
         </form>
         <button type="button" class="close-button close-button_add-cards"></button>

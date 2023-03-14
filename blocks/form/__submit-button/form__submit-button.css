@@ -2,7 +2,7 @@
   background: #000000;
   border-radius: 2px;
   width: 100%;
-  margin-top: 48px;
+  margin-top: 16px;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -10,7 +10,7 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
-  padding: 16.5px 0;
+  padding: 16px 0;
 }
 
 .form__submit-button:hover {
@@ -21,7 +21,7 @@
   .form__submit-button {
     font-size: 14px;
     line-height: 17px;
-    margin-top: 45px;
+    margin-top: 13px;
     padding: 14.5px 0;
   }
 }

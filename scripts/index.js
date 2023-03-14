@@ -17,9 +17,15 @@ const popupImage = document.querySelector('.popup-image');
 const popupImagePhoto = document.querySelector('.popup-image__image');
 const popupImageCaption = document.querySelector('.popup-image__caption');
 const closeButtons = document.querySelectorAll('.close-button');
+const popups = document.querySelectorAll('.popup');
 
 
 // закрытие попапов
+const closePopup = popup => {
+  popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupOnEscape);
+};
+
 closeButtons.forEach((button) => {
   const popup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(popup));
@@ -27,14 +33,34 @@ closeButtons.forEach((button) => {
 
 
 // открытие формы редактирования профиля
-const openPopup = popup => popup.classList.add('popup_opened');
-const closePopup = popup => popup.classList.remove('popup_opened');
+const openPopup = popup => {
+  popup.classList.add('popup_opened')
+  document.addEventListener('keydown', closePopupOnEscape);
+};
+
+
+popups.forEach((popup) => {
+  popup.addEventListener('click', (evt) => {
+    if (evt.target === evt.currentTarget) {
+      closePopup(popup);
+    }
+  })
+})
+
+const closePopupOnEscape = (evt) => {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
+  }
+}
 
 editButton.addEventListener('click', () => {
   openPopup(popupEditForm);
 
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+
+  toggleSubmitButtonState(editForm, validationConfig);
 });
 
 
@@ -104,13 +130,16 @@ const renderCard = function(card) {
   });
 
   return cardElement;
-}
+};
 
 initialCards.forEach((card) => cardElements.append(renderCard(card)));
 
 
 // открытие формы добавления карточек
-addButton.addEventListener('click', () => openPopup(popupAddCards));
+addButton.addEventListener('click', () => {
+  toggleSubmitButtonState(addForm, validationConfig);
+  openPopup(popupAddCards);
+});
 
 
 // добавление новых карточек
@@ -126,6 +155,126 @@ function handleAddCardFormSubmit(evt) {
     cardElements.prepend(renderCard(newCard));
     closePopup(popupAddCards);
     evt.target.reset();
-}
+};
 
 addForm.addEventListener('submit', handleAddCardFormSubmit);
+
+
+// валидация форм
+
+const validationConfig = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__submit-button',
+  inactiveButtonClass: 'form__submit-button_inactive',
+  inputErrorClass: 'form__input_invalid',
+  errorClass: 'error-message'
+}
+
+const enableValidation = (config) => {
+  const formsList = document.querySelectorAll(config.formSelector);
+
+  formsList.forEach((form) => {
+    const inputsList = document.querySelectorAll(config.inputSelector);
+    inputsList.forEach((inputElement) => {
+      inputElement.addEventListener('input', () => {
+        isInputValid(form, inputElement, config)
+      });
+    });
+  });
+};
+
+const isInputValid = (form, inputElement, config) => {
+  if (inputElement.validity.valid) {
+    hideErrorMessage(inputElement, config);
+  } else {
+    showErrorMessage(inputElement, config);
+  }
+  toggleSubmitButtonState(form, config);
+}
+
+const hideErrorMessage = (inputElement, config) => {
+  const spanErrorMessage = document.querySelector(`#error-${inputElement.id}`);
+  spanErrorMessage.textContent = '';
+  inputElement.classList.remove(config.inputErrorClass);
+};
+
+const showErrorMessage = (inputElement, config) => {
+  const spanErrorMessage = document.querySelector(`#error-${inputElement.id}`);
+  spanErrorMessage.textContent = inputElement.validationMessage;
+  inputElement.classList.add(config.inputErrorClass);
+};
+
+const toggleSubmitButtonState = (form, config) => {
+  const submitButton = form.querySelector(config.submitButtonSelector);
+  if (form.checkValidity()) {
+    submitButton.disabled = false;
+    submitButton.classList.remove(config.inactiveButtonClass);
+  } else {
+    submitButton.disabled = true;
+    submitButton.classList.add(config.inactiveButtonClass);
+  }
+};
+
+enableValidation(validationConfig);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const isValid = (formElement, inputElement) => {
+//   if (!inputElement.validity.valid) {
+//     // showInputError теперь получает параметром форму, в которой
+//     // находится проверяемое поле, и само это поле
+//     showInputError(formElement, inputElement, inputElement.validationMessage);
+//   } else {
+//     // hideInputError теперь получает параметром форму, в которой
+//     // находится проверяемое поле, и само это поле
+//     hideInputError(formElement, inputElement);
+//   }
+// };
+
+// const showInputError = (formElement, inputElement, errorMessage) => {
+//   // Находим элемент ошибки внутри самой функции
+//   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+//   // Остальной код такой же
+//   inputElement.classList.add('form__input_type_error');
+//   errorElement.textContent = errorMessage;
+//   errorElement.classList.add('form__input-error_active');
+// };
+
+// const hideInputError = (formElement, inputElement) => {
+//   // Находим элемент ошибки
+//   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+//   // Остальной код такой же
+//   inputElement.classList.remove('form__input_type_error');
+//   errorElement.classList.remove('form__input-error_active');
+//   errorElement.textContent = '';
+// };
+
+// const setEventListeners = (formElement) => {
+//   // Находим все поля внутри формы,
+//   // сделаем из них массив методом Array.from
+//   const inputList = Array.from(formElement.querySelectorAll('.form__input'));
+
+//   // Обойдём все элементы полученной коллекции
+//   inputList.forEach((inputElement) => {
+//     // каждому полю добавим обработчик события input
+//     inputElement.addEventListener('input', () => {
+//       // Внутри колбэка вызовем isValid,
+//       // передав ей форму и проверяемый элемент
+//       isValid(formElement, inputElement)
+//     });
+//   });
+// };
