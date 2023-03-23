@@ -25,33 +25,31 @@ const renderCard = function(card, profileId) {
   cardNumberOfLikes.textContent = card.likes.length;
 
   // лайк карточки
-  if (card.likes.some((owner) => {
-    return owner._id === profileId;
-  })) {
+  if (card.likes.some((owner) => owner._id === profileId)) {
     likeButton.classList.add('element__like-button_active');
   }
 
-  likeButton.addEventListener('click', () => {
-    if (likeButton.classList.contains('element__like-button_active')) {
+  likeButton.addEventListener("click", () => {
+    if (likeButton.classList.contains("element__like-button_active")) {
       dislikeCard(card._id)
-      .then((result) => {
-        likeButton.classList.toggle('element__like-button_active');
-        cardNumberOfLikes.textContent = result.likes.length;
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+        .then((card) => {
+          likeButton.classList.toggle("element__like-button_active");
+          cardNumberOfLikes.textContent = card.likes.length;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       likeCard(card._id)
-      .then((result) => {
-        likeButton.classList.toggle('element__like-button_active');
-        cardNumberOfLikes.textContent = result.likes.length;
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+        .then((card) => {
+          likeButton.classList.toggle("element__like-button_active");
+          cardNumberOfLikes.textContent = card.likes.length;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  })
+  });
 
   // удаление карточки
   if (card.owner._id === profileId) {
@@ -61,14 +59,14 @@ const renderCard = function(card, profileId) {
       const deleteEventListener = (evt) => {
         evt.preventDefault();
         deleteCard(card._id)
-        .then(() => {
-          cardElement.remove();
-          closePopup(popupDeleteConfirmation);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-      }
+          .then(() => {
+            cardElement.remove();
+            closePopup(popupDeleteConfirmation);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
 
       submitButtonDeleteConfirmation.addEventListener('click', deleteEventListener, {once: true});
     })

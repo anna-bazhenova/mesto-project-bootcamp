@@ -42,16 +42,31 @@ const validationConfig = {
 enableValidation(validationConfig);
 
 
+// загрузка данных в профиль
+getProfileInfo()
+  .then((profile) => {
+    profileName.textContent = profile.name;
+    profileJob.textContent = profile.about;
+    profileAvatar.src = profile.avatar;
 
-
-// получение карточек
-getInitialCards()
-  .then((initialCards) => {
-    initialCards.forEach((card) => cardElements.append(renderCard(card, profileId)));
+    loadInitialCards(profile._id);
   })
   .catch((err) => {
     console.log(err);
   });
+
+// получение карточек
+const loadInitialCards = (profileId) => {
+  return getInitialCards()
+    .then((initialCards) => {
+      initialCards.forEach((card) =>
+        cardElements.append(renderCard(card, profileId))
+      );
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
 // открытие формы добавления карточек
 addButton.addEventListener('click', () => {
@@ -72,8 +87,8 @@ const handleAddCardFormSubmit = (evt) => {
   };
 
   saveNewCard(newCard)
-  .then((result) => {
-    cardElements.prepend(renderCard(result, profileId));
+  .then((card) => {
+    cardElements.prepend(renderCard(card, card.owner._id));
     closePopup(popupAddCards);
     evt.target.reset();
   })
@@ -87,12 +102,13 @@ const handleAddCardFormSubmit = (evt) => {
 
 addCardForm.addEventListener('submit', handleAddCardFormSubmit);
 
-
+// открытие формы изменения аватара
 profileAvatarContainer.addEventListener('click', () => {
   toggleSubmitButtonState(changeAvatarForm, validationConfig);
   openPopup(popupChangeAvatar);
 })
 
+// изменение аватара
 const handleChangeAvatarFormSubmit = (evt) => {
   evt.preventDefault();
 
@@ -114,19 +130,6 @@ const handleChangeAvatarFormSubmit = (evt) => {
 }
 
 changeAvatarForm.addEventListener('submit', handleChangeAvatarFormSubmit);
-
-// загрузка данных в профиль
-let profileId;
-getProfileInfo()
-  .then((result) => {
-    profileName.textContent = result.name;
-    profileJob.textContent = result.about;
-    profileAvatar.src = result.avatar;
-    profileId = result._id;
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 
 // открытие формы профиля
 editButton.addEventListener('click', () => {
