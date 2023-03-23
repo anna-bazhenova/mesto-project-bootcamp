@@ -2,7 +2,7 @@
 const enableValidation = (config) => {
   const formsList = document.querySelectorAll(config.formSelector);
   formsList.forEach((form) => {
-    const inputsList = document.querySelectorAll(config.inputSelector);
+    const inputsList = form.querySelectorAll(config.inputSelector);
     inputsList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         checkInputValidity(form, inputElement, config)
