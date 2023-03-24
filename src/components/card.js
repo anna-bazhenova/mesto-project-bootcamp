@@ -11,6 +11,25 @@ const popupImageCaption = document.querySelector('.popup-image__caption');
 const popupDeleteConfirmation = document.querySelector('.popup_confirmation');
 const submitButtonDeleteConfirmation = popupDeleteConfirmation.querySelector('.form__submit-button');
 
+const cardToDelete = {
+  cardId: '',
+  card: null
+}
+
+const deleteEventListener = (evt) => {
+  evt.preventDefault();
+  deleteCard(cardToDelete.cardId)
+    .then(() => {
+      cardToDelete.card.remove();
+      closePopup(popupDeleteConfirmation);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+submitButtonDeleteConfirmation.addEventListener('click', deleteEventListener);
+
 // отображение карточек при загрузке страницы
 const renderCard = function(card, profileId) {
   const cardElement = cardElementTemplate.cloneNode(true);
@@ -54,21 +73,9 @@ const renderCard = function(card, profileId) {
   // удаление карточки
   if (card.owner._id === profileId) {
     deleteButton.addEventListener('click', () => {
+      cardToDelete.cardId = card._id;
+      cardToDelete.card = cardElement;
       openPopup(popupDeleteConfirmation);
-
-      const deleteEventListener = (evt) => {
-        evt.preventDefault();
-        deleteCard(card._id)
-          .then(() => {
-            cardElement.remove();
-            closePopup(popupDeleteConfirmation);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
-
-      submitButtonDeleteConfirmation.addEventListener('click', deleteEventListener, {once: true});
     })
   } else {
     deleteButton.remove();
