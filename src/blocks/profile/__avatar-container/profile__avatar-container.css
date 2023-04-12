@@ -28,3 +28,9 @@
 .profile__avatar-container:hover::after {
   opacity: 1;
 }
+
+@media screen and (max-width: 500px) {
+  .profile__avatar-container {
+    margin-right: 0;
+  }
+}
